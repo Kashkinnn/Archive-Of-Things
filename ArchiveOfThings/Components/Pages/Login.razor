@@ -5,25 +5,25 @@
 
 <PageTitle>Sign in</PageTitle>
 
-<form class="login-card" @onsubmit="SignIn">
-    <div class="brand brand-lg">ArchiveOfThings</div>
-    <p class="muted">Sign in to your archive</p>
+<form class="flex w-[min(380px,100%)] flex-col gap-[16px] rounded-[8px] border border-line bg-card p-[28px]" @onsubmit="SignIn">
+    <div class="font-heading text-[1.4rem] font-semibold text-brand">ArchiveOfThings</div>
+    <p class="text-muted">Sign in to your archive</p>
 
     @if (error is not null)
     {
-        <p class="error" role="alert">@error</p>
+        <p class="text-[.85rem] text-danger" role="alert">@error</p>
     }
 
-    <label class="field">
-        <span class="field-label">Username</span>
-        <input @bind="username" @bind:event="oninput" autocomplete="username" />
+    <label class="flex flex-col gap-[6px]">
+        <span class="text-[.72rem] uppercase tracking-[.06em] text-brand">Username</span>
+        <input class="w-full rounded-[6px] border border-line bg-field px-[12px] py-[9px] text-[.9rem] outline-none focus:border-brand" @bind="username" @bind:event="oninput" autocomplete="username" />
     </label>
-    <label class="field">
-        <span class="field-label">Password</span>
-        <input type="password" @bind="password" @bind:event="oninput" autocomplete="current-password" />
+    <label class="flex flex-col gap-[6px]">
+        <span class="text-[.72rem] uppercase tracking-[.06em] text-brand">Password</span>
+        <input class="w-full rounded-[6px] border border-line bg-field px-[12px] py-[9px] text-[.9rem] outline-none focus:border-brand" type="password" @bind="password" @bind:event="oninput" autocomplete="current-password" />
     </label>
 
-    <button class="btn-primary" type="submit">Sign in</button>
+    <button class="cursor-pointer rounded-[6px] border border-brand bg-brand px-[14px] py-[9px] font-semibold text-[#12201a] hover:brightness-[1.08]" type="submit">Sign in</button>
 </form>
 
 @code {
