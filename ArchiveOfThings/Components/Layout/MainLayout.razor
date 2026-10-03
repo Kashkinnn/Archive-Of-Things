@@ -1,19 +1,23 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
+@inject SessionState Session
+@inject NavigationManager Nav
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">ArchiveOfThings</div>
+        <nav class="nav" aria-label="Main">
+            <NavLink class="nav-item" href="" Match="NavLinkMatch.All">Dashboard</NavLink>
+        </nav>
+        <div class="user">
+            <div class="avatar">@Session.Initial</div>
+            <div class="user-info">
+                <div>@Session.Username</div>
+                <div class="muted">Admin</div>
+            </div>
+            <button class="signout" @onclick="SignOut">Sign out</button>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    </aside>
+    <main class="content">@Body</main>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -21,3 +25,11 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    void SignOut()
+    {
+        Session.SignOut();
+        Nav.NavigateTo("login");
+    }
+}

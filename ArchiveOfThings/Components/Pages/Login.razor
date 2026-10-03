@@ -1,0 +1,46 @@
+@page "/login"
+@layout LoginLayout
+@inject SessionState Session
+@inject NavigationManager Nav
+
+<PageTitle>Sign in</PageTitle>
+
+<form class="login-card" @onsubmit="SignIn">
+    <div class="brand brand-lg">ArchiveOfThings</div>
+    <p class="muted">Sign in to your archive</p>
+
+    @if (error is not null)
+    {
+        <p class="error" role="alert">@error</p>
+    }
+
+    <label class="field">
+        <span class="field-label">Username</span>
+        <input @bind="username" @bind:event="oninput" autocomplete="username" />
+    </label>
+    <label class="field">
+        <span class="field-label">Password</span>
+        <input type="password" @bind="password" @bind:event="oninput" autocomplete="current-password" />
+    </label>
+
+    <button class="btn-primary" type="submit">Sign in</button>
+</form>
+
+@code {
+    string username = "";
+    string password = "";
+    string? error;
+
+    void SignIn()
+    {
+        if (username == "admin" && password == "admin")
+        {
+            Session.SignIn(username);
+            Nav.NavigateTo("");
+        }
+        else
+        {
+            error = "Invalid username or password.";
+        }
+    }
+}

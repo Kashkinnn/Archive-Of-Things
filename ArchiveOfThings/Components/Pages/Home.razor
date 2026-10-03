@@ -1,7 +1,20 @@
-﻿@page "/"
+@page "/"
+@inject SessionState Session
+@inject NavigationManager Nav
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Dashboard</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (Session.IsLoggedIn)
+{
+    <header class="page-header">
+        <h1>Dashboard</h1>
+        <p class="page-sub">Overview of your archive</p>
+    </header>
+}
 
-Welcome to your new app.
+@code {
+    protected override void OnInitialized()
+    {
+        if (!Session.IsLoggedIn) Nav.NavigateTo("login");
+    }
+}
