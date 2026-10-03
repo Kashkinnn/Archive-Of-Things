@@ -10,9 +10,92 @@
         <h1 class="font-heading text-[1.9rem] font-semibold text-brand">Dashboard</h1>
         <p class="mt-1.5 text-sm text-muted">Overview of your archive</p>
     </header>
+
+    <section class="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        @foreach (var s in stats)
+        {
+            <div class="flex flex-col gap-1 rounded-lg border border-line bg-card p-4">
+                <span class="text-xs uppercase tracking-wider text-muted">@s.Label</span>
+                <span class="font-heading text-3xl font-semibold text-brand">@s.Value</span>
+            </div>
+        }
+    </section>
+
+    <div class="grid items-start gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+        <section>
+            <div class="mb-3 flex items-baseline justify-between">
+                <h2 class="font-heading text-lg font-semibold text-brand">Recent Activity</h2>
+                <span class="text-sm text-muted">Last 10 days</span>
+            </div>
+            <div class="overflow-hidden rounded-lg border border-line bg-card">
+                @foreach (var a in activity)
+                {
+                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-line px-4 py-3 last:border-b-0 sm:grid-cols-[minmax(0,1fr)_auto_84px]">
+                        <div class="flex min-w-0 flex-col gap-0.5">
+                            <span class="text-brand">@a.Title</span>
+                            <span class="text-sm">@a.Text</span>
+                        </div>
+                        <span class="rounded border border-brand/50 px-2 py-px font-ui text-xs text-brand">@a.Collection</span>
+                        <span class="hidden text-sm text-muted sm:block">@a.Date</span>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-3">
+                <h2 class="font-heading text-lg font-semibold text-brand">Collections</h2>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2">
+                @foreach (var t in tiles)
+                {
+                    <div class="flex min-h-[118px] flex-col gap-2.5 rounded-lg border border-line bg-card p-4 hover:border-line-strong">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <span class="font-heading text-base font-semibold text-brand">@t.Name</span>
+                            <span class="text-sm text-muted">@t.Items items</span>
+                        </div>
+                        <p class="line-clamp-2 text-sm">@t.Description</p>
+                        <div class="mt-auto border-t border-line pt-2 text-sm">
+                            <span class="text-muted">Updated:</span> <span class="text-info">@t.Updated</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
 }
 
 @code {
+    record Stat(string Label, string Value);
+    record Activity(string Title, string Collection, string Text, string Date);
+    record Tile(string Name, int Items, string Description, string Updated);
+
+    readonly Stat[] stats =
+    {
+        new("Items", "290"),
+        new("Collections", "4"),
+        new("Recently added (24h)", "12"),
+        new("Storage", "2.4GB / 16GB")
+    };
+
+    readonly Activity[] activity =
+    {
+        new("Chrono Trigger (SNES)", "Games", "Added complete-in-box Japanese cartridge in pristine condition.", "2026-03-29"),
+        new("Tuscan Garlic Chicken Pasta", "Recipes", "Modified prep steps: reduced heavy cream, added sun-dried tomato paste.", "2026-03-28"),
+        new("Analogue Pocket (White)", "Wishlist", "Updated target price. Sourced secondary Japanese auction listing.", "2026-03-25"),
+        new("Charizard Base Set 4/102 Holo", "Card Lists", "Added grading notes: PSA 8 potential, minor silvering on edges.", "2026-03-24"),
+        new("The Witcher 3: Wild Hunt", "Games", "Archived complete GOG backup along with manual and official soundtrack.", "2026-03-22"),
+        new("Sourdough Starter (No-Knead)", "Recipes", "Added hydration guide tables for fluctuating winter room temp.", "2026-03-20")
+    };
+
+    readonly Tile[] tiles =
+    {
+        new("Games", 47, "Retro physical cartridges, GOG backup manifests, and platform completion status.", "2 mins ago"),
+        new("Recipes", 123, "Handcrafted culinary notes, experimental baking procedures, and meal prep metrics.", "1 hour ago"),
+        new("Wishlist", 31, "Hardware targets, rare book tracking, and marketplace pricing indicators.", "4 days ago"),
+        new("Card Lists", 89, "Trading card databases, collection binders, condition grading, and set listings.", "Yesterday")
+    };
+
     protected override void OnInitialized()
     {
         if (!Session.IsLoggedIn) Nav.NavigateTo("login");
