@@ -15,7 +15,7 @@ Can store personalized archives or collections with item tagging, custom labels(
 
 ## getting started
 #### Requirements
-- .Net 10
+- .Net 8
 - For windows: Powershell
 - For linux : To be updated
 - For docker: To be updated
